@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Corrida</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            user-select: none; /* Prevents text selection on tap */
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            background-image: url('https://th.bing.com/th/id/R.47e099307c72b3c8b98cecd028a93bd7?rik=Ffm0wYsWHxGZeA&riu=http%3a%2f%2fnoset.com.br%2fwp-content%2fuploads%2f2016%2f09%2fgato-2.jpg&ehk=FH9enUmzg8ElklSWMMfepJThXqOE%2fdH1oSWFHrr6WDo%3d&risl=&pid=ImgRaw&r=0');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center 30%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            overflow: hidden;
+            padding: 20px;
+        }
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0, 0, 0, 0.05);
+            z-index: 1;
+        }
+        h1 {
+            margin-bottom: 30px;
+            color: #1e40af;
+            text-align: center;
+            font-size: 2.5rem;
+            text-shadow: 3px 3px 10px rgba(255, 255, 255, 1), -3px -3px 10px rgba(255, 255, 255, 1);
+            z-index: 10;
+        }
+        .button-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            max-width: 400px;
+            z-index: 10;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            transition: transform 0.1s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            -webkit-tap-highlight-color: transparent;
+        }
+        #yesButton {
+            background-color: #16a34a;
+            color: white;
+            order: 1;
+        }
+        #yesButton:active {
+            transform: scale(0.95);
+        }
+        #elusiveButton {
+            background-color: #dc2626;
+            color: white;
+            order: 2;
+            position: relative;
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.9rem;
+                margin-bottom: 20px;
+            }
+            button {
+                padding: 12px 24px;
+                font-size: 16px;
+                flex: 1;
+                max-width: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Laisa, vamos correr juntos?</h1>
+    
+    <div class="button-container">
+        <button id="yesButton">Sim</button>
+        <button id="elusiveButton">Não</button>
+    </div>
+
+    <script>
+        const elusiveBtn = document.getElementById('elusiveButton');
+        const yesBtn = document.getElementById('yesButton');
+
+        // Elusive "Não" button — teleports on hover (desktop) and touch (mobile)
+        function moveButton(e) {
+            if (e.type === 'touchstart') {
+                e.preventDefault();
+                e.stopPropagation(); // Stop event from bubbling
+            }
+            
+            const maxX = window.innerWidth - elusiveBtn.offsetWidth - 25;
+            const maxY = window.innerHeight - elusiveBtn.offsetHeight - 25;
+            
+            const randomX = Math.max(15, Math.floor(Math.random() * maxX));
+            const randomY = Math.max(15, Math.floor(Math.random() * maxY));
+            
+            elusiveBtn.style.position = 'absolute';
+            elusiveBtn.style.left = `${randomX}px`;
+            elusiveBtn.style.top = `${randomY}px`;
+        }
+
+        elusiveBtn.addEventListener('mouseenter', moveButton);
+        elusiveBtn.addEventListener('touchstart', moveButton, { passive: false });
+
+        // Fixed "Sim" button for iPhone compatibility
+        // Using both click and touchstart events ensures it works on all devices
+        function redirectToYouTube() {
+            window.open(
+                "https://www.youtube.com/watch?v=mX0Pobve2IE&list=RDmX0Pobve2IE&start_radio=1",
+                "_blank"
+            );
+        }
+        
+        // Regular click for desktop and most mobile browsers
+        yesBtn.addEventListener('click', redirectToYouTube);
+    </script>    
+</body>
+</html>
